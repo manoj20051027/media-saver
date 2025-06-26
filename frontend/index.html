@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Media Saver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #fff;
+            text-align: center;
+            padding: 40px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        select, button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 10px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #ad {
+            display: none;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Media Saver</h1>
+        <input type="text" id="url" placeholder="Paste YouTube or Instagram link here" />
+        <br />
+        <select id="quality">
+            <option value="best">Best</option>
+            <option value="144">144p</option>
+            <option value="240">240p</option>
+            <option value="360">360p</option>
+            <option value="480">480p</option>
+            <option value="720">720p</option>
+            <option value="1080">1080p</option>
+            <option value="2160">2K</option>
+            <option value="4320">4K</option>
+        </select>
+        <br />
+        <button onclick="download()">⬇️ Download</button>
+        <div id="ad">Please wait... Showing ad (5 seconds)...</div>
+    </div>
+
+    <script>
+        async function download() {
+            const url = document.getElementById("url").value;
+            const quality = document.getElementById("quality").value;
+            const ad = document.getElementById("ad");
+            ad.style.display = "block";
+
+            setTimeout(async () => {
+                ad.innerText = "Preparing your download...";
+                let endpoint = url.includes("instagram") ? "instagram" : "youtube";
+                let q = endpoint === "youtube" ? "&quality=" + quality : "";
+                let api = "https://your-backend-url.onrender.com/download/" + endpoint + "?url=" + encodeURIComponent(url) + q;
+                window.location.href = api;
+                ad.innerText = "Download started!";
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
